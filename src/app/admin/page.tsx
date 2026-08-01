@@ -35,6 +35,7 @@ const TABS = [
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
+  const [role, setRole] = useState<"admin" | "superadmin">("admin");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -205,7 +206,9 @@ export default function AdminPage() {
     });
     setLoginLoading(false);
     if (res.ok) {
+      const d = await res.json();
       setCredentials({ username: loginUsername, password: loginPassword });
+      setRole(d.role === "superadmin" ? "superadmin" : "admin");
       setAuthed(true);
     } else {
       const d = await res.json();
@@ -556,9 +559,10 @@ export default function AdminPage() {
         {/* ── ACCOUNT ── */}
         {tab === "account" && (
           <AccountTab
+            role={role}
             currentUsername={credentials.username}
             currentPassword={credentials.password}
-            onChanged={(u, p) => setCredentials({ username: u, password: p })}
+            onChanged={(u, p) => { if (role === "admin") setCredentials({ username: u, password: p }); }}
           />
         )}
 
@@ -601,12 +605,17 @@ export default function AdminPage() {
   );
 }
 
-function AccountTab({ currentUsername, currentPassword, onChanged }: {
+function AccountTab({ role, currentUsername, currentPassword, onChanged }: {
+  role: "admin" | "superadmin";
   currentUsername: string;
   currentPassword: string;
   onChanged: (username: string, password: string) => void;
 }) {
-  const [newUsername, setNewUsername] = useState(currentUsername);
+  const adminCreds = role === "superadmin"
+    ? { username: "", password: "" }
+    : { username: currentUsername, password: currentPassword };
+
+  const [newUsername, setNewUsername] = useState(adminCreds.username);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [saving, setSaving] = useState(false);
@@ -648,11 +657,15 @@ function AccountTab({ currentUsername, currentPassword, onChanged }: {
     <div className="max-w-md space-y-6">
       <div>
         <h2 className="font-display text-2xl">Kontoinställningar</h2>
-        <p className="text-xs text-[#9e9590] mt-1">Ändra användarnamn och lösenord för admin-inloggning</p>
+        <p className="text-xs text-[#9e9590] mt-1">
+          {role === "superadmin" ? "Ändra admin-kontots inloggningsuppgifter" : "Ändra användarnamn och lösenord för admin-inloggning"}
+        </p>
       </div>
 
       <div className="border border-[rgba(184,154,106,0.18)] rounded-sm bg-[#100e12] p-6 space-y-4">
-        <p className="text-[10px] uppercase tracking-widest text-[#c8a46a]">Inloggat som: {currentUsername}</p>
+        {role !== "superadmin" && (
+          <p className="text-[10px] uppercase tracking-widest text-[#c8a46a]">Inloggat som: {currentUsername}</p>
+        )}
 
         <div>
           <label className="block text-[10px] uppercase tracking-widest text-[#9e9590] mb-1.5">Nytt användarnamn</label>
