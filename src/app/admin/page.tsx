@@ -44,6 +44,35 @@ export default function AdminPage() {
   const [dragOver, setDragOver] = useState<number | null>(null);
   const [dragIdx, setDragIdx] = useState<number | null>(null);
   const uploadRef = useRef<HTMLInputElement>(null);
+  const touchDragIdx = useRef<number | null>(null);
+
+  function handleTouchStart(idx: number) {
+    touchDragIdx.current = idx;
+    setDragIdx(idx);
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    const touch = e.touches[0];
+    const els = document.elementsFromPoint(touch.clientX, touch.clientY);
+    for (const el of els) {
+      const raw = (el as HTMLElement).dataset?.galleryIdx;
+      if (raw !== undefined) {
+        const ti = parseInt(raw);
+        setDragOver(ti);
+        return;
+      }
+    }
+  }
+
+  function handleTouchEnd() {
+    const from = touchDragIdx.current;
+    if (from !== null && dragOver !== null && from !== dragOver) {
+      moveGallery(from, dragOver);
+    }
+    touchDragIdx.current = null;
+    setDragIdx(null);
+    setDragOver(null);
+  }
 
   useEffect(() => {
     if (authed) fetchContent();
@@ -272,11 +301,16 @@ export default function AdminPage() {
               {content.gallery.map((src, i) => (
                 <div
                   key={src + i}
+                  data-gallery-idx={i}
                   draggable
                   onDragStart={() => onDragStart(i)}
                   onDragOver={e => onDragOver(e, i)}
                   onDrop={e => onDrop(e, i)}
                   onDragEnd={() => { setDragIdx(null); setDragOver(null); }}
+                  onTouchStart={() => handleTouchStart(i)}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                  style={{ touchAction: "none" }}
                   className={`relative group aspect-square rounded-sm overflow-hidden cursor-grab active:cursor-grabbing bg-[#100e12] transition-all ${
                     dragOver === i ? "ring-2 ring-[#c8a46a] scale-105" : ""
                   } ${dragIdx === i ? "opacity-40" : ""}`}
