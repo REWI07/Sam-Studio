@@ -10,7 +10,7 @@ export default function LoadingScreen() {
   useEffect(() => {
     history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
-    const t = setTimeout(() => setVisible(false), 1900);
+    const t = setTimeout(() => setVisible(false), 1000);
     return () => clearTimeout(t);
   }, []);
 
