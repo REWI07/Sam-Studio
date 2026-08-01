@@ -288,18 +288,28 @@ export default function AdminPage() {
                     sizes="150px"
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
                   <button
                     onClick={() => removeGalleryImage(i)}
-                    className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 z-10"
+                    className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-red-500/90 text-white flex items-center justify-center hover:bg-red-600 z-10 transition-colors"
                   >
                     <X size={12} />
                   </button>
-                  <span className="absolute bottom-1.5 left-1.5 text-[10px] text-white/60 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="absolute bottom-1.5 left-1.5 text-[10px] text-white/50">
                     #{i + 1}
                   </span>
                 </div>
               ))}
+
+              {/* Add new image tile */}
+              <button
+                onClick={() => uploadRef.current?.click()}
+                className="aspect-square rounded-sm border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-colors hover:border-[#c8a46a] hover:text-[#c8a46a]"
+                style={{ borderColor: "rgba(200,164,106,0.25)", color: "#9e9590" }}
+              >
+                <Plus size={22} />
+                <span className="text-[10px] uppercase tracking-wider">Lägg till</span>
+              </button>
             </div>
           </div>
         )}
