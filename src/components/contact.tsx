@@ -164,7 +164,7 @@ export default function Contact() {
           style={{ height: 340 }}
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2139.7520735764517!2d14.803661776508541!3d56.87874997343292!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465a6f0a3b9a1bcf%3A0x8a3a2c9f2a3b7e1d!2sSandg%C3%A4rdsgatan%2016B%2C%20352%2030%20V%C3%A4xj%C3%B6!5e0!3m2!1ssv!2sse!4v1700000000000!5m2!1ssv!2sse"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(studio.address)}&output=embed`}
             width="100%"
             height="340"
             style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) saturate(0.8)" }}
