@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import {
   X, Save, Upload, Plus, Trash2, ChevronUp, ChevronDown,
-  Eye, LogOut, ImageIcon, Type, User, Phone, Grid3X3, Quote, Star
+  Eye, LogOut, ImageIcon, Type, User, Phone, Grid3X3, Quote, Star, KeyRound, CheckCircle2
 } from "lucide-react";
 
 type Service = { name: string; duration: string; price: string; note?: string };
@@ -22,7 +22,6 @@ type Content = {
   studio: { name: string; city: string; address: string; area: string; phone: string; bookingUrl: string; instagram: string; hours: Hour[] };
 };
 
-const PASSWORD = "sam2024";
 const TABS = [
   { id: "gallery", label: "Galleri", icon: Grid3X3 },
   { id: "hero", label: "Hero", icon: ImageIcon },
@@ -31,12 +30,16 @@ const TABS = [
   { id: "reviews", label: "Recensioner", icon: Star },
   { id: "services", label: "Tjänster", icon: Type },
   { id: "contact", label: "Kontakt", icon: Phone },
+  { id: "account", label: "Konto", icon: KeyRound },
 ];
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
-  const [pw, setPw] = useState("");
-  const [pwError, setPwError] = useState(false);
+  const [loginUsername, setLoginUsername] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [content, setContent] = useState<Content | null>(null);
   const [tab, setTab] = useState("gallery");
   const [saving, setSaving] = useState(false);
@@ -105,7 +108,7 @@ export default function AdminPage() {
     await fetch("/api/admin/content", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password: PASSWORD, ...content }),
+      body: JSON.stringify({ username: credentials.username, password: credentials.password, ...content }),
     });
     setSaving(false);
     setSaved(true);
@@ -114,7 +117,8 @@ export default function AdminPage() {
 
   async function uploadImage(file: File): Promise<string | null> {
     const fd = new FormData();
-    fd.append("password", PASSWORD);
+    fd.append("username", credentials.username);
+    fd.append("password", credentials.password);
     fd.append("file", file);
     const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
     if (!res.ok) return null;
@@ -187,6 +191,28 @@ export default function AdminPage() {
     setContent({ ...content, services: s });
   }
 
+  async function handleLogin() {
+    if (!loginUsername || !loginPassword) {
+      setLoginError("Fyll i användarnamn och lösenord");
+      return;
+    }
+    setLoginLoading(true);
+    setLoginError("");
+    const res = await fetch("/api/admin/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "login", username: loginUsername, password: loginPassword }),
+    });
+    setLoginLoading(false);
+    if (res.ok) {
+      setCredentials({ username: loginUsername, password: loginPassword });
+      setAuthed(true);
+    } else {
+      const d = await res.json();
+      setLoginError(d.error ?? "Fel uppgifter");
+    }
+  }
+
   if (!authed) {
     return (
       <div className="min-h-screen bg-[#080608] flex items-center justify-center px-4">
@@ -197,20 +223,31 @@ export default function AdminPage() {
             <p className="text-xs text-[#9e9590] mt-1 tracking-widest uppercase">Sam Studio Växjö</p>
           </div>
           <input
-            type="password"
-            placeholder="Lösenord"
-            value={pw}
-            onChange={e => { setPw(e.target.value); setPwError(false); }}
-            onKeyDown={e => { if (e.key === "Enter") { if (pw === PASSWORD) setAuthed(true); else setPwError(true); } }}
+            type="text"
+            placeholder="Användarnamn"
+            autoComplete="username"
+            value={loginUsername}
+            onChange={e => { setLoginUsername(e.target.value); setLoginError(""); }}
+            onKeyDown={e => { if (e.key === "Enter") handleLogin(); }}
             className="w-full px-5 py-4 rounded-sm bg-[#100e12] border border-[rgba(184,154,106,0.18)] text-[#ece6dc] placeholder-[#9e9590] outline-none focus:border-[#c8a46a] transition-colors text-sm mb-3"
           />
-          {pwError && <p className="text-red-400 text-xs mb-3 text-center">Fel lösenord</p>}
+          <input
+            type="password"
+            placeholder="Lösenord"
+            autoComplete="current-password"
+            value={loginPassword}
+            onChange={e => { setLoginPassword(e.target.value); setLoginError(""); }}
+            onKeyDown={e => { if (e.key === "Enter") handleLogin(); }}
+            className="w-full px-5 py-4 rounded-sm bg-[#100e12] border border-[rgba(184,154,106,0.18)] text-[#ece6dc] placeholder-[#9e9590] outline-none focus:border-[#c8a46a] transition-colors text-sm mb-3"
+          />
+          {loginError && <p className="text-red-400 text-xs mb-3 text-center">{loginError}</p>}
           <button
-            onClick={() => { if (pw === PASSWORD) setAuthed(true); else setPwError(true); }}
-            className="w-full py-4 rounded-sm text-sm uppercase tracking-widest font-medium transition-all hover:scale-[1.02]"
+            onClick={handleLogin}
+            disabled={loginLoading}
+            className="w-full py-4 rounded-sm text-sm uppercase tracking-widest font-medium transition-all hover:scale-[1.02] disabled:opacity-60"
             style={{ background: "#c8a46a", color: "#06050a" }}
           >
-            Logga in
+            {loginLoading ? "Loggar in..." : "Logga in"}
           </button>
         </div>
       </div>
@@ -516,6 +553,15 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* ── ACCOUNT ── */}
+        {tab === "account" && (
+          <AccountTab
+            currentUsername={credentials.username}
+            currentPassword={credentials.password}
+            onChanged={(u, p) => setCredentials({ username: u, password: p })}
+          />
+        )}
+
         {/* ── CONTACT ── */}
         {tab === "contact" && (
           <div className="max-w-2xl space-y-5">
@@ -549,6 +595,111 @@ export default function AdminPage() {
         >
           <Save size={16} />
           {saving ? "..." : saved ? "Sparat!" : "Spara"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function AccountTab({ currentUsername, currentPassword, onChanged }: {
+  currentUsername: string;
+  currentPassword: string;
+  onChanged: (username: string, password: string) => void;
+}) {
+  const [newUsername, setNewUsername] = useState(currentUsername);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  async function handleSave() {
+    setError("");
+    if (!newUsername.trim()) { setError("Användarnamn får inte vara tomt"); return; }
+    if (!newPassword) { setError("Ange ett nytt lösenord"); return; }
+    if (newPassword.length < 4) { setError("Lösenordet måste vara minst 4 tecken"); return; }
+    if (newPassword !== confirmPassword) { setError("Lösenorden matchar inte"); return; }
+    setSaving(true);
+    const res = await fetch("/api/admin/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "change-password",
+        username: currentUsername,
+        password: currentPassword,
+        newUsername: newUsername.trim(),
+        newPassword,
+      }),
+    });
+    setSaving(false);
+    if (res.ok) {
+      onChanged(newUsername.trim(), newPassword);
+      setNewPassword("");
+      setConfirmPassword("");
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } else {
+      const d = await res.json();
+      setError(d.error ?? "Något gick fel");
+    }
+  }
+
+  return (
+    <div className="max-w-md space-y-6">
+      <div>
+        <h2 className="font-display text-2xl">Kontoinställningar</h2>
+        <p className="text-xs text-[#9e9590] mt-1">Ändra användarnamn och lösenord för admin-inloggning</p>
+      </div>
+
+      <div className="border border-[rgba(184,154,106,0.18)] rounded-sm bg-[#100e12] p-6 space-y-4">
+        <p className="text-[10px] uppercase tracking-widest text-[#c8a46a]">Inloggat som: {currentUsername}</p>
+
+        <div>
+          <label className="block text-[10px] uppercase tracking-widest text-[#9e9590] mb-1.5">Nytt användarnamn</label>
+          <input
+            type="text"
+            value={newUsername}
+            autoComplete="username"
+            onChange={e => { setNewUsername(e.target.value); setError(""); }}
+            className="w-full bg-[#080608] border border-[rgba(184,154,106,0.18)] rounded-sm px-4 py-3 text-sm text-[#ece6dc] outline-none focus:border-[#c8a46a] transition-colors"
+          />
+        </div>
+        <div>
+          <label className="block text-[10px] uppercase tracking-widest text-[#9e9590] mb-1.5">Nytt lösenord</label>
+          <input
+            type="password"
+            value={newPassword}
+            autoComplete="new-password"
+            onChange={e => { setNewPassword(e.target.value); setError(""); }}
+            className="w-full bg-[#080608] border border-[rgba(184,154,106,0.18)] rounded-sm px-4 py-3 text-sm text-[#ece6dc] outline-none focus:border-[#c8a46a] transition-colors"
+          />
+        </div>
+        <div>
+          <label className="block text-[10px] uppercase tracking-widest text-[#9e9590] mb-1.5">Bekräfta nytt lösenord</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            autoComplete="new-password"
+            onChange={e => { setConfirmPassword(e.target.value); setError(""); }}
+            onKeyDown={e => { if (e.key === "Enter") handleSave(); }}
+            className="w-full bg-[#080608] border border-[rgba(184,154,106,0.18)] rounded-sm px-4 py-3 text-sm text-[#ece6dc] outline-none focus:border-[#c8a46a] transition-colors"
+          />
+        </div>
+
+        {error && <p className="text-red-400 text-xs">{error}</p>}
+        {success && (
+          <div className="flex items-center gap-2 text-green-400 text-xs">
+            <CheckCircle2 size={14} /> Uppgifterna har uppdaterats
+          </div>
+        )}
+
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="w-full py-3 rounded-sm text-sm uppercase tracking-widest font-medium transition-all hover:scale-[1.01] disabled:opacity-60"
+          style={{ background: "#c8a46a", color: "#06050a" }}
+        >
+          {saving ? "Sparar..." : "Uppdatera uppgifter"}
         </button>
       </div>
     </div>

@@ -3,7 +3,12 @@ import fs from "fs";
 import path from "path";
 
 const CONTENT_PATH = path.join(process.cwd(), "src/data/content.json");
-const ADMIN_PASSWORD = "sam2024";
+const CREDS_PATH = path.join(process.cwd(), "src/data/credentials.json");
+
+function checkAuth(username: string, password: string) {
+  const creds = JSON.parse(fs.readFileSync(CREDS_PATH, "utf-8")) as { username: string; password: string };
+  return username === creds.username && password === creds.password;
+}
 
 export async function GET() {
   const raw = fs.readFileSync(CONTENT_PATH, "utf-8");
@@ -12,10 +17,10 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { password, ...data } = body;
+  const { username, password, ...data } = body;
 
-  if (password !== ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Fel lösenord" }, { status: 401 });
+  if (!checkAuth(username, password)) {
+    return NextResponse.json({ error: "Ej behörig" }, { status: 401 });
   }
 
   fs.writeFileSync(CONTENT_PATH, JSON.stringify(data, null, 2));

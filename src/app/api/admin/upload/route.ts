@@ -2,14 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const ADMIN_PASSWORD = "sam2024";
+const CREDS_PATH = path.join(process.cwd(), "src/data/credentials.json");
+
+function checkAuth(username: string, password: string) {
+  const creds = JSON.parse(fs.readFileSync(CREDS_PATH, "utf-8")) as { username: string; password: string };
+  return username === creds.username && password === creds.password;
+}
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
+  const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 
-  if (password !== ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Fel lösenord" }, { status: 401 });
+  if (!checkAuth(username, password)) {
+    return NextResponse.json({ error: "Ej behörig" }, { status: 401 });
   }
 
   const file = formData.get("file") as File;
