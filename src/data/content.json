@@ -1,0 +1,260 @@
+{
+  "hero": {
+    "backgroundImage": "/img/samstudio2.jpg",
+    "welcomeText": "Välkommen till",
+    "line1": "Sam Studio",
+    "line2": "Växjö",
+    "tagline": "Herrfrisör & Studio · Växjö"
+  },
+  "about": {
+    "portraitImage": "/img/sam1.jpg",
+    "ownerName": "Sam",
+    "ownerRole": "Master Barber",
+    "heading": "Passion för",
+    "headingAccent": "hantverket.",
+    "text1": "Sam är frisör och barberare med över 18 års erfarenhet. Med passion för hantverk och ett öga för detaljer skapar han resultat som du faktiskt är stolt över — varje gång.",
+    "text2": "På Sam Studio i Växjö tas du emot med värme och expertis. Oavsett om det gäller en klassisk klippning, skarp fade eller skäggdesign — du är i trygga händer.",
+    "rating": "4.9",
+    "reviews": "424",
+    "experience": "6+"
+  },
+  "gallery": [
+    "/img/gallery1_files/497409808_18459749272078906_6616065766416309101_n.jpg",
+    "/img/gallery1_files/483147431_18447333088078906_4231357517583469065_n.jpg",
+    "/img/gallery1_files/483496241_18448054603078906_8965787602497888900_n.jpg",
+    "/img/gallery1_files/483922674_18448864843078906_8750057289129323471_n.jpg",
+    "/img/gallery1_files/484802322_18449356594078906_1838009800614163563_n.jpg",
+    "/img/gallery1_files/484835817_18449713651078906_3687643858888359343_n.jpg",
+    "/img/gallery1_files/486657524_18451739440078906_6174257668045309771_n.jpg",
+    "/img/gallery1_files/489590105_18454200883078906_8139482318765665098_n.jpg",
+    "/img/gallery1_files/496858766_18459333985078906_1306226727409226864_n.jpg",
+    "/img/gallery1_files/497221275_18459333475078906_435431093888399171_n.jpg",
+    "/img/gallery1_files/497591126_18459579652078906_7526065676614543881_n.jpg",
+    "/img/gallery1_files/500155099_18461117200078906_8067215619412647816_n.jpg",
+    "/img/gallery1_files/502968172_18462233536078906_6180860927276032525_n.jpg",
+    "/img/gallery1_files/503041527_18462957877078906_8871080133640932509_n.jpg",
+    "/img/gallery1_files/503266138_18462725521078906_7749165123198987335_n.jpg",
+    "/img/gallery1_files/539889544_18476438419078906_2262006117714435210_n.jpg",
+    "/img/gallery1_files/548861807_18479831026078906_6409243021638642173_n.jpg",
+    "/img/gallery1_files/550750894_667052466427576_7871818777985012790_n.jpg",
+    "/img/gallery1_files/550810161_18480294838078906_8211210261139627012_n.jpg",
+    "/img/gallery1_files/551969652_18481121677078906_8806119006374945195_n.jpg",
+    "/img/gallery1_files/552211997_2639809579695533_5953943744313648229_n.jpg",
+    "/img/gallery1_files/552238446_2034742784022666_4879492756422481517_n.jpg",
+    "/img/gallery1_files/552561693_18481442092078906_4964378481904442464_n.jpg",
+    "/img/gallery1_files/552820547_18481585555078906_574158311536391288_n.jpg",
+    "/img/gallery1_files/553209509_18481618300078906_2569309884406297486_n.jpg",
+    "/img/gallery1_files/553492390_18481755400078906_4949062521070126284_n.jpg",
+    "/img/gallery1_files/553668471_18481442890078906_2749558512718232549_n.jpg",
+    "/img/gallery1_files/554209434_18481755031078906_4518279136157097809_n.jpg"
+  ],
+  "story": {
+    "backgroundImage": "/img/sam1.jpg",
+    "label": "Vår filosofi",
+    "quoteBefore": "Ett klipp är mer än ett klipp —",
+    "quoteAccent": "det är känslan du bär med dig",
+    "quoteAfter": "när du lämnar stolen.",
+    "tagline": "Sam Studio · Växjö · sedan 2018"
+  },
+  "reviews": {
+    "rating": "4.9",
+    "count": "424",
+    "items": [
+      {
+        "name": "Marcus L.",
+        "rating": 5,
+        "text": "Bästa klippningen jag haft på länge. Sam vet precis vad han gör — lyssnar, förstår och levererar. Kommer definitivt tillbaka.",
+        "date": "April 2025"
+      },
+      {
+        "name": "Ali K.",
+        "rating": 5,
+        "text": "Fantastisk service och riktigt bra fade. Salongen är snygg och atmosfären är avslappnad. Kan varmt rekommendera!",
+        "date": "Mars 2025"
+      },
+      {
+        "name": "Johan E.",
+        "rating": 5,
+        "text": "Sam är en riktig proffs. Skäggklippningen var perfekt och han tog sig tid att göra det rätt. 5 stjärnor utan tvekan.",
+        "date": "Maj 2025"
+      },
+      {
+        "name": "Daniel S.",
+        "rating": 5,
+        "text": "Värt varje krona. Har testat många barberare i Växjö men Sam Studio är i en klass för sig. Alltid nöjd när jag går därifrån.",
+        "date": "Juni 2025"
+      }
+    ]
+  },
+  "services": [
+    {
+      "category": "Barberartjänster",
+      "items": [
+        {
+          "name": "Klassisk klippning med fade",
+          "duration": "30 min",
+          "price": "från 450 kr"
+        },
+        {
+          "name": "Klassisk klippning (utan fade)",
+          "duration": "25 min",
+          "price": "från 450 kr"
+        },
+        {
+          "name": "Klassisk klippning med tjockt / långt hår",
+          "duration": "40 min",
+          "price": "från 510 kr"
+        },
+        {
+          "name": "Skinfade med buzzcut",
+          "duration": "25 min",
+          "price": "från 410 kr"
+        },
+        {
+          "name": "Buzz cut (utan fade)",
+          "duration": "20 min",
+          "price": "från 340 kr"
+        },
+        {
+          "name": "Klippning hår & skägg",
+          "duration": "40 min",
+          "price": "från 640 kr"
+        },
+        {
+          "name": "VIP Barberare",
+          "duration": "60 min",
+          "price": "från 1 100 kr",
+          "note": "komplett paket"
+        },
+        {
+          "name": "Familj paket",
+          "duration": "60 min",
+          "price": "från 960 kr"
+        },
+        {
+          "name": "Student",
+          "duration": "25 min",
+          "price": "400 kr"
+        },
+        {
+          "name": "Student klippning + skägg",
+          "duration": "35 min",
+          "price": "från 510 kr"
+        },
+        {
+          "name": "Ungdomsklippning 10–15 år",
+          "duration": "30 min",
+          "price": "från 410 kr"
+        },
+        {
+          "name": "Barn klippning",
+          "duration": "25 min",
+          "price": "350 kr"
+        },
+        {
+          "name": "Pensionär klippning",
+          "duration": "25 min",
+          "price": "från 390 kr"
+        },
+        {
+          "name": "Skägg trimmer bas",
+          "duration": "20 min",
+          "price": "från 200 kr"
+        },
+        {
+          "name": "Skägg trimmer med fade (kort skägg)",
+          "duration": "20 min",
+          "price": "från 250 kr"
+        },
+        {
+          "name": "Skägg trimmer (lång skägg)",
+          "duration": "25 min",
+          "price": "från 280 kr"
+        },
+        {
+          "name": "Fön med styling",
+          "duration": "20 min",
+          "price": "från 270 kr"
+        },
+        {
+          "name": "Vaxning",
+          "duration": "15 min",
+          "price": "170 kr"
+        },
+        {
+          "name": "Tråd",
+          "duration": "15 min",
+          "price": "150 kr"
+        }
+      ]
+    },
+    {
+      "category": "Klippning & Ansikte",
+      "items": [
+        {
+          "name": "American shave",
+          "duration": "30 min",
+          "price": "450 kr"
+        },
+        {
+          "name": "Lugg klippning",
+          "duration": "20 min",
+          "price": "200 kr"
+        },
+        {
+          "name": "Student långt hår (tvätt ingår ej)",
+          "duration": "40 min",
+          "price": "470 kr"
+        },
+        {
+          "name": "Ansiktsbehandling",
+          "duration": "20 min",
+          "price": "250 kr"
+        }
+      ]
+    },
+    {
+      "category": "Frisörtjänster – Dam",
+      "items": [
+        {
+          "name": "Dam klippning kort hår",
+          "duration": "35 min",
+          "price": "från 640 kr"
+        },
+        {
+          "name": "Dam klippning av hårtoppar",
+          "duration": "45 min",
+          "price": "från 710 kr"
+        },
+        {
+          "name": "Dam klippning mellan / långt hår",
+          "duration": "60 min",
+          "price": "från 910 kr"
+        }
+      ]
+    }
+  ],
+  "studio": {
+    "name": "Sam Studio",
+    "city": "Växjö",
+    "address": "Sandgärdsgatan 16B, 352 30 Växjö",
+    "area": "Växjö",
+    "phone": "070-717 06 06",
+    "bookingUrl": "https://www.bokadirekt.se/places/sam-studio-hair-grooming-cz-salong-54523",
+    "instagram": "https://www.instagram.com/samstudiovaxjo/",
+    "hours": [
+      {
+        "label": "Mån-Fre",
+        "value": "09:00-19:00"
+      },
+      {
+        "label": "Lördag",
+        "value": "10:00-18:00"
+      },
+      {
+        "label": "Söndag",
+        "value": "11:00-16:30"
+      }
+    ]
+  }
+}
