@@ -54,7 +54,7 @@ export default function Services() {
               <button onClick={() => setOpenIndex(openIndex === ci ? null : ci)}
                 className="w-full flex items-center justify-between px-7 py-5 bg-bg-soft hover:bg-bg/60 transition-colors text-left"
               >
-                <p className="text-sm uppercase tracking-[0.4em]" style={{ color: "#c8a46a" }}>{cat.category}</p>
+                <p className="text-sm uppercase tracking-[0.18em] md:tracking-[0.4em]" style={{ color: "#c8a46a" }}>{cat.category}</p>
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-fg-muted tracking-wide">{cat.items.length} tjänster</span>
                   <motion.div animate={{ rotate: openIndex === ci ? 180 : 0 }} transition={{ duration: 0.3 }}>
