@@ -577,11 +577,25 @@ export default function AdminPage() {
             <Field label="Bokningslänk" value={content.studio.bookingUrl} onChange={v => setContent({ ...content, studio: { ...content.studio, bookingUrl: v } })} />
             <Field label="Instagram URL" value={content.studio.instagram} onChange={v => setContent({ ...content, studio: { ...content.studio, instagram: v } })} />
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-widest text-[#9e9590]">Öppettider</p>
+              <div className="flex items-center justify-between">
+                <p className="text-xs uppercase tracking-widest text-[#9e9590]">Öppettider</p>
+                <button
+                  onClick={() => setContent({ ...content, studio: { ...content.studio, hours: [...content.studio.hours, { label: "Dag", value: "00:00 – 00:00" }] } })}
+                  className="flex items-center gap-1 text-xs text-[#9e9590] hover:text-[#c8a46a] transition-colors"
+                >
+                  <Plus size={13} /> Lägg till rad
+                </button>
+              </div>
               {content.studio.hours.map((h, i) => (
-                <div key={i} className="flex items-center gap-3">
+                <div key={i} className="flex items-center gap-2">
                   <input value={h.label} onChange={e => { const hrs = [...content.studio.hours]; hrs[i] = { ...hrs[i], label: e.target.value }; setContent({ ...content, studio: { ...content.studio, hours: hrs } }); }} className="w-28 bg-[#100e12] border border-[rgba(184,154,106,0.18)] rounded px-3 py-2 text-sm outline-none focus:border-[#c8a46a] transition-colors" />
                   <input value={h.value} onChange={e => { const hrs = [...content.studio.hours]; hrs[i] = { ...hrs[i], value: e.target.value }; setContent({ ...content, studio: { ...content.studio, hours: hrs } }); }} className="flex-1 bg-[#100e12] border border-[rgba(184,154,106,0.18)] rounded px-3 py-2 text-sm outline-none focus:border-[#c8a46a] transition-colors" />
+                  <button
+                    onClick={() => { const hrs = content.studio.hours.filter((_, idx) => idx !== i); setContent({ ...content, studio: { ...content.studio, hours: hrs } }); }}
+                    className="text-[#9e9590] hover:text-red-400 transition-colors shrink-0"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               ))}
             </div>
