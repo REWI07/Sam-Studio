@@ -35,7 +35,10 @@ export default function CookieBanner() {
           >
             <div className="flex items-start justify-between gap-3 mb-4">
               <p className="text-sm leading-relaxed" style={{ color: "rgba(236,230,220,0.75)" }}>
-                Vi använder cookies för att förbättra din upplevelse på webbplatsen.
+                Vi använder cookies för att förbättra din upplevelse.{" "}
+                <a href="/integritetspolicy" className="underline underline-offset-2 hover:opacity-80 transition-opacity" style={{ color: "#c8a46a" }}>
+                  Integritetspolicy
+                </a>
               </p>
               <button
                 onClick={accept}
