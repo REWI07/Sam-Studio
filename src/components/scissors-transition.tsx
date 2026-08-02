@@ -26,8 +26,10 @@ export function ScissorsTransitionProvider({
       if (busy.current) return;
       busy.current = true;
 
+      const vh = window.innerHeight;
+
       // Reset scissors to below screen, line to zero
-      scissCtrl.set({ y: "calc(100vh + 150px)", opacity: 1 });
+      scissCtrl.set({ y: vh + 150, opacity: 1 });
       lineCtrl.set({ scaleY: 0, opacity: 1 });
       glowCtrl.set({ scaleY: 0, opacity: 1 });
 
@@ -39,7 +41,7 @@ export function ScissorsTransitionProvider({
 
       // 2. Scissors cut from bottom to top
       scissCtrl.start({
-        y: "calc(-100vh - 150px)",
+        y: -(vh + 150),
         transition: { duration: 1.9, ease: [0.25, 0.1, 0.25, 1] },
       });
       lineCtrl.start({
@@ -131,7 +133,7 @@ export function ScissorsTransitionProvider({
 
       {/* Scissors — rotated -90deg so they point upward, moving bottom→top */}
       <motion.div
-        initial={{ y: "calc(100vh + 150px)", opacity: 1 }}
+        initial={{ y: 1150, opacity: 1 }}
         animate={scissCtrl}
         className="fixed z-[503] pointer-events-none"
         style={{ left: "calc(50vw - 110px)", top: 0, willChange: "transform" }}
