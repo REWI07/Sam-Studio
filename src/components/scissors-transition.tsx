@@ -28,18 +28,21 @@ export function ScissorsTransitionProvider({
 
       const vh = window.innerHeight;
 
-      // Reset scissors to below screen, line to zero
-      scissCtrl.set({ y: vh + 150, opacity: 1 });
+      // Reset all: scissors below screen, line hidden, panels out
+      scissCtrl.stop();
+      scissCtrl.set({ y: vh + 150 });
+      lineCtrl.stop();
       lineCtrl.set({ scaleY: 0, opacity: 1 });
+      glowCtrl.stop();
       glowCtrl.set({ scaleY: 0, opacity: 1 });
 
-      // 1. Panels slide in from left and right
+      // 1. Panels slide in
       await Promise.all([
         leftCtrl.start({ x: "0%", transition: { duration: 0.38, ease } }),
         rightCtrl.start({ x: "0%", transition: { duration: 0.38, ease } }),
       ]);
 
-      // 2. Scissors cut from bottom to top
+      // 2. Scissors cut bottom→top, line draws
       scissCtrl.start({
         y: -(vh + 150),
         transition: { duration: 1.9, ease: [0.25, 0.1, 0.25, 1] },
@@ -59,13 +62,12 @@ export function ScissorsTransitionProvider({
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: "instant" });
 
-      // 4. Wait for scissors to finish
+      // 4. Wait for scissors to pass screen
       await new Promise((r) => setTimeout(r, 600));
 
-      // 5. Fade out line + scissors
+      // 5. Fade out line/glow (scissors are already off-screen)
       lineCtrl.start({ opacity: 0, transition: { duration: 0.2 } });
       glowCtrl.start({ opacity: 0, transition: { duration: 0.2 } });
-      scissCtrl.start({ opacity: 0, transition: { duration: 0.15 } });
 
       // 6. Panels slide out
       await Promise.all([
@@ -133,7 +135,7 @@ export function ScissorsTransitionProvider({
 
       {/* Scissors — rotated -90deg so they point upward, moving bottom→top */}
       <motion.div
-        initial={{ y: 1150, opacity: 1 }}
+        initial={{ y: 1150 }}
         animate={scissCtrl}
         className="fixed z-[503] pointer-events-none"
         style={{ left: "calc(50vw - 110px)", top: 0, willChange: "transform" }}
