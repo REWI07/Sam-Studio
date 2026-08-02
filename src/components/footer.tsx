@@ -107,7 +107,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} Sam Studio Växjö. Alla rättigheter förbehållna.</p>
           <p>
             Skapad av{" "}
-            <a href="https://saryonstudio.se" className="hover:text-gold transition-colors" style={{ color: "#c8a46a" }}>
+            <a href="https://saryonstudio.se" target="_blank" rel="noopener" className="hover:text-gold transition-colors" style={{ color: "#c8a46a" }}>
               Saryon Studio
             </a>
           </p>
