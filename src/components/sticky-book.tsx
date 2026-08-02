@@ -4,7 +4,8 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function StickyBook() {
-  const [visible, setVisible] = useState(false);
+  const [scrolledEnough, setScrolledEnough] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
   const [bookingUrl, setBookingUrl] = useState("https://www.bokadirekt.se/places/sam-studio-hair-grooming-cz-salong-54523");
   const { scrollY } = useScroll();
 
@@ -14,9 +15,22 @@ export default function StickyBook() {
       .then(d => { if (d.studio?.bookingUrl) setBookingUrl(d.studio.bookingUrl); });
   }, []);
 
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   useMotionValueEvent(scrollY, "change", (y) => {
-    setVisible(y > 300);
+    setScrolledEnough(y > 300);
   });
+
+  const visible = scrolledEnough && !footerVisible;
 
   return (
     <motion.div
